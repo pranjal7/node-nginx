@@ -55,6 +55,7 @@ EXPOSE 80 443
 #This app binds to port 3200, so we use the EXPOSE instruction to have it mapped by the docker daemon
 EXPOSE 3200
 
+RUN npm i -f
 
 
 
