@@ -14,9 +14,7 @@ RUN apt-get update \
         ca-certificates \
         git \
         gcc \
-        vim \
         vi \
-        nano \
         make \
         libpcre3-dev \
         zlib1g-dev \
