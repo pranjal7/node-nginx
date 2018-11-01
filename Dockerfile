@@ -14,7 +14,6 @@ RUN apt-get update \
         ca-certificates \
         git \
         gcc \
-        vi \
         make \
         libpcre3-dev \
         zlib1g-dev \
