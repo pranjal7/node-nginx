@@ -4,10 +4,10 @@ This image is made using the official Node and Official Nginx images
 
 
 
-How to run nginx on OpenShift?
-Aug 4, 2017 • Torsten Walter
+# How to run nginx on OpenShift?
 
-Table of Contents
+
+# Table of Contents
 Fix file and directory permissions
 Fix used port
 Remove user directive
@@ -23,7 +23,7 @@ By default, OpenShift Container Platform runs containers using an arbitrarily as
 
 For an image to support running as an arbitrary user, directories and files that may be written to by processes in the image should be owned by the root group and be read/writable by that group. Files to be executed should also have group execute permissions.
 
-Fix file and directory permissions
+# Fix file and directory permissions
 Let’s chack the nginx configuration file for possible file or directory permission problems.
 
 /etc/nginx/nginx.conf
@@ -64,7 +64,7 @@ http {
 /etc/nginx/conf.d/ - as nginx should not write to configuration files read permissions are sufficient
 In addition nginx writes files to /var/cache/nginx
 
-Let’s check the permissions for these files and directories:
+# Let’s check the permissions for these files and directories:
 
 run the official nginx docker image:
 
@@ -133,7 +133,8 @@ listen port is 80
 We can change the port unsing an in-place sed expression:
 
 sed -i.bak 's/listen\(.*\)80;/listen 8081;/' /etc/nginx/conf.d/default.conf
-Remove user directive
+
+# Remove user directive
 If you start nginx with the modifications from above the following error message is shown:
 
 2017/08/04 06:51:55 [warn] 1#1: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /etc/nginx/nginx.conf:2
@@ -152,8 +153,8 @@ RUN sed -i.bak 's/^user/#user/' /etc/nginx/nginx.conf
 Dockerfile
 The following Dockerfile can be used to fix the problems with the official nginx docker image so that it can be run on OpenShift:
 
-Dockerfile
-FROM nginx:stable
+# Dockerfile
+FROM pranjalbhatnagar/node-nginx
 
 # support running as arbitrary user which belogs to the root group
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
@@ -164,7 +165,7 @@ EXPOSE 8081
 RUN sed -i.bak 's/^user/#user/' /etc/nginx/nginx.conf
 So that you don’t have to do this I created docker images with these modifications in https://hub.docker.com/r/twalter/openshift-nginx/. The tags follow the official nginx tags. All images should automatically be rebuilt whenever the official nginx images are rebuilt.
 
-Run nginx in OpenShift
+# Run nginx in OpenShift
 So finally we can use nginx in OpenShift:
 
 oc new-app twalter/openshift-nginx:stable --name nginx-stable
