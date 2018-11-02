@@ -50,9 +50,9 @@ COPY ./default.conf /etc/nginx/conf.d/default.conf
 #COPY templates/nginx/nginx.init /etc/init.d/nginx
 #RUN chmod +x /etc/init.d/nginx
 
-RUN sed -i.bak 's/listen\(.*\)80;/listen 8081;/' /etc/nginx/conf.d/default.conf
+RUN sed -i.bak 's/listen\(.*\)80;/listen 8080;/' /etc/nginx/conf.d/default.conf
 
-EXPOSE 80 443
+EXPOSE 80 8080 443
 
 # Addinbuild/static/css /var/www/data
 
